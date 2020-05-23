@@ -1,0 +1,22 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t bmaharjan/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true bmaharjan/react-test npm run test -- --coverage
+
+after_success:
+    - docker build -t bmaharjan/multi-client ./client
+    - docker build -t bmaharjan/multi-nginx ./nginx
+    - docker build -t bmaharjan/multi-server ./server
+    - docker build -t bmaharjan/multi-worker ./worker
+
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+    - docker push bmaharjan/multi-client
+    - docker push bmaharjan/multi-nginx
+    - docker push bmaharjan/multi-server
+    - docker push bmaharjan/multi-worker

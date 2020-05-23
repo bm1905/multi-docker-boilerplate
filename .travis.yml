@@ -3,25 +3,20 @@ services:
     - docker
 
 before_install:
-    - docker build -t bmaharjan/react-test -f ./client/Dockerfile.dev ./client
+    - docker build -t bijaymaharjan/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-    - docker run -e CI=true bmaharjan/react-test npm run test -- --coverage
+    - docker run -e CI=true bijaymaharjan/react-test npm run test -- --coverage
 
 after_success:
-    - docker build -t bmaharjan/multi-client ./client
-    - docker build -t bmaharjan/multi-nginx ./nginx
-    - docker build -t bmaharjan/multi-server ./server
-    - docker build -t bmaharjan/multi-worker ./worker
+    - docker build -t bijaymaharjan/multi-client ./client
+    - docker build -t bijaymaharjan/multi-nginx ./nginx
+    - docker build -t bijaymaharjan/multi-server ./server
+    - docker build -t bijaymaharjan/multi-worker ./worker
 
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-    - docker tag bmaharjan/multi-client  bijaymaharjan/bmaharjan/multi-client
-    - docker tag bmaharjan/multi-nginx  bijaymaharjan/bmaharjan/multi-nginx 
-    - docker tag bmaharjan/multi-server  bijaymaharjan/bmaharjan/multi-server 
-    - docker tag bmaharjan/multi-worker  bijaymaharjan/bmaharjan/multi-worker 
-
-    - docker push bijaymaharjan/bmaharjan/multi-client
-    - docker push bijaymaharjan/bmaharjan/multi-nginx
-    - docker push bijaymaharjan/bmaharjan/multi-server
-    - docker push bijaymaharjan/bmaharjan/multi-worker
+    - docker push bijaymaharjan/multi-client
+    - docker push bijaymaharjan/multi-nginx
+    - docker push bijaymaharjan/multi-server
+    - docker push bijaymaharjan/multi-worker

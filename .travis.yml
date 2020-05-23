@@ -16,7 +16,12 @@ after_success:
 
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-    - docker push bmaharjan/multi-client
-    - docker push bmaharjan/multi-nginx
-    - docker push bmaharjan/multi-server
-    - docker push bmaharjan/multi-worker
+    - docker tag bmaharjan/multi-client  bijaymaharjan/bmaharjan/multi-client
+    - docker tag bmaharjan/multi-nginx  bijaymaharjan/bmaharjan/multi-nginx 
+    - docker tag bmaharjan/multi-server  bijaymaharjan/bmaharjan/multi-server 
+    - docker tag bmaharjan/multi-worker  bijaymaharjan/bmaharjan/multi-worker 
+
+    - docker push bijaymaharjan/bmaharjan/multi-client
+    - docker push bijaymaharjan/bmaharjan/multi-nginx
+    - docker push bijaymaharjan/bmaharjan/multi-server
+    - docker push bijaymaharjan/bmaharjan/multi-worker
